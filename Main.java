@@ -1,109 +1,52 @@
-// Main.java
-import java.util.Scanner;
-
+// Main.java (Modified for automated GitHub Actions runs)
 public class Main {
     public static void main(String[] args) {
+        System.out.println("=== INITIALIZING AUTOMATED GITHUB ACTIONS RUN ===\n");
+        
         InventoryManager manager = new InventoryManager();
-        manager.loadInventoryFromFile(); // Load disk state upon initialization
-        Scanner scanner = new Scanner(System.in);
-        boolean running = true;
+        manager.loadInventoryFromFile(); // Verifies I/O Streams read block
 
-        System.out.println("=== Welcome to the Advanced Java Warehouse System ===");
+        // 1. Seed initial data (OOP Inheritance verification)
+        System.out.println("▶️ Seeding inventory database items...");
+        manager.addItem(new ElectronicsItem("E101", "Developer Laptop", 10, 24));
+        manager.addItem(new PerishableItem("P202", "Server Room Energy Drinks", 50, "2027-12-31"));
 
-        while (running) {
-            System.out.println("\n--- MAIN MENU ---");
-            System.out.println("1. Add Electronics Item");
-            System.out.println("2. Add Perishable Item");
-            System.out.println("3. Display Current Inventory");
-            System.out.println("4. Process Restock (Exception handling test)");
-            System.out.println("5. Dispatch Concurrent Order Batch (Multithreading test)");
-            System.out.println("6. Save & Exit");
-            System.print("Select an option: ");
-
-            String choice = scanner.nextLine();
-
-            // Java Flow Control structure
-            switch (choice) {
-                case "1":
-                    System.out.print("Enter ID: "); String eId = scanner.nextLine();
-                    System.out.print("Enter Name: "); String eName = scanner.nextLine();
-                    System.out.print("Enter Quantity: "); int eQty = Integer.parseInt(scanner.nextLine());
-                    System.out.print("Enter Warranty (Months): "); int eWarranty = Integer.parseInt(scanner.nextLine());
-                    manager.addItem(new ElectronicsItem(eId, eName, eQty, eWarranty));
-                    System.out.println("Item added successfully.");
-                    break;
-
-                case "2":
-                    System.out.print("Enter ID: "); String pId = scanner.nextLine();
-                    System.out.print("Enter Name: "); String pName = scanner.nextLine();
-                    System.out.print("Enter Quantity: "); int pQty = Integer.parseInt(scanner.nextLine());
-                    System.out.print("Enter Expiry Date (YYYY-MM-DD): "); String pExpiry = scanner.nextLine();
-                    manager.addItem(new PerishableItem(pId, pName, pQty, pExpiry));
-                    System.out.println("Item added successfully.");
-                    break;
-
-                case "3":
-                    System.out.println("\n--- CURRENT INVENTORY LIST ---");
-                    if (manager.getInventory().isEmpty()) {
-                        System.out.println("[Inventory is currently empty]");
-                    } else {
-                        // Dynamic Polymorphism at runtime inside loop block
-                        for (WarehouseItem item : manager.getInventory()) {
-                            System.out.println(item.getItemDetails());
-                        }
-                    }
-                    break;
-
-                case "4":
-                    System.out.print("Enter Item ID to restock: ");
-                    String rId = scanner.nextLine();
-                    WarehouseItem rItem = manager.findItem(rId);
-                    if (rItem != null) {
-                        System.out.print("Enter amount to add (Try negative to trigger exception): ");
-                        int amount = Integer.parseInt(scanner.nextLine());
-                        try {
-                            rItem.restock(amount);
-                            System.out.println("Restock successful. New total: " + rItem.getQuantity());
-                        } catch (InvalidStockException e) {
-                            // Java Exception Handling demonstration
-                            System.err.println("Caught Custom Exception: " + e.getMessage());
-                        }
-                    } else {
-                        System.out.println("Item not found.");
-                    }
-                    break;
-
-                case "5":
-                    System.out.print("Enter Item ID for parallel processing: ");
-                    String oId = scanner.nextLine();
-                    System.out.println("Spawning 2 concurrent worker threads targeting the same stock...");
-                    
-                    // Create distinct runnable instances running concurrently
-                    Thread worker1 = new Thread(new OrderProcessor(manager, oId, 5, "Worker-Alpha"));
-                    Thread worker2 = new Thread(new OrderProcessor(manager, oId, 8, "Worker-Beta"));
-                    
-                    worker1.start();
-                    worker2.start();
-
-                    // Main execution context waits for tasks to complete
-                    try {
-                        worker1.join();
-                        worker2.join();
-                    } catch (InterruptedException e) {
-                        System.err.println("Main synchronization thread interrupted.");
-                    }
-                    break;
-
-                case "6":
-                    manager.saveInventoryToFile(); // Write contents out to raw storage stream
-                    running = false;
-                    System.out.println("Exiting system. Goodbye!");
-                    break;
-
-                default:
-                    System.out.println("Invalid selection option. Please try again.");
-            }
+        // 2. Display Polymorphism output
+        System.out.println("\n▶️ Displaying Polymorphic Inventory Details:");
+        for (WarehouseItem item : manager.getInventory()) {
+            System.out.println(item.getItemDetails());
         }
-        scanner.close();
+
+        // 3. Exception Handling Demonstration
+        System.out.println("\n▶️ Testing Custom Exception Handling (Attempting illegal negative restock)...");
+        try {
+            WarehouseItem laptop = manager.findItem("E101");
+            if (laptop != null) {
+                laptop.restock(-5); // Will trigger the exception
+            }
+        } catch (InvalidStockException e) {
+            System.out.println("✨ Success: Caught expected custom exception -> " + e.getMessage());
+        }
+
+        // 4. Multithreading Race-Condition Simulation
+        System.out.println("\n▶️ Spawning Multithreaded Workers concurrently processing Item E101...");
+        Thread worker1 = new Thread(new OrderProcessor(manager, "E101", 4, "GitHub-Runner-Alpha"));
+        Thread worker2 = new Thread(new OrderProcessor(manager, "E101", 4, "GitHub-Runner-Beta"));
+        
+        worker1.start();
+        worker2.start();
+
+        try {
+            worker1.join();
+            worker2.join();
+        } catch (InterruptedException e) {
+            System.err.println("Main pipeline thread interrupted.");
+        }
+
+        // 5. Save State via Outbound I/O Data Streams
+        System.out.println("\n▶️ Saving state back to structural disk storage stream...");
+        manager.saveInventoryToFile();
+
+        System.out.println("\n=== SYSTEM AUTOMATION TEST CONCLUDED SUCCESSFULLY ===");
     }
 }
