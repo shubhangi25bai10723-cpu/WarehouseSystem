@@ -4,11 +4,15 @@ public class InvalidStockException extends Exception {
         super(message);
     }
 }
+
+
 // StockOperations.java
 public interface StockOperations {
     void restock(int amount) throws InvalidStockException;
     void reduceStock(int amount) throws InvalidStockException;
 }
+
+
 // WarehouseItem.java
 import java.io.Serializable;
 
@@ -46,10 +50,11 @@ public abstract class WarehouseItem implements StockOperations, Serializable {
         }
         this.quantity -= amount;
     }
-
     // Abstract method for polymorphic string representations
     public abstract String getItemDetails();
 }
+
+
 // ElectronicsItem.java
 public class ElectronicsItem extends WarehouseItem {
     private int warrantyMonths;
@@ -67,6 +72,8 @@ public class ElectronicsItem extends WarehouseItem {
 
     public int getWarrantyMonths() { return warrantyMonths; }
 }
+
+
 // PerishableItem.java
 public class PerishableItem extends WarehouseItem {
     private String expiryDate;
@@ -82,6 +89,8 @@ public class PerishableItem extends WarehouseItem {
                 getId(), getName(), getQuantity(), expiryDate);
     }
 }
+
+
 // InventoryManager.java
 import java.io.*;
 import java.util.ArrayList;
@@ -96,7 +105,8 @@ public class InventoryManager {
     }
 
     public synchronized List<WarehouseItem> getInventory() {
-        return new ArrayList<>(inventory); // Return copy for thread safety
+        return new ArrayList<>(inventory); 
+        // Return copy for thread safety
     }
 
     public synchronized WarehouseItem findItem(String id) {
@@ -107,8 +117,7 @@ public class InventoryManager {
         }
         return null;
     }
-
-    // Save state using Byte/Object Output Streams
+  // Save state using Byte/Object Output Streams
     public synchronized void saveInventoryToFile() {
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(DATA_FILE))) {
             oos.writeObject(inventory);
@@ -117,7 +126,6 @@ public class InventoryManager {
             System.err.println("❌ Error saving inventory to file: " + e.getMessage());
         }
     }
-
     // Load state using Byte/Object Input Streams
     @SuppressWarnings("unchecked")
     public synchronized void loadInventoryFromFile() {
@@ -135,6 +143,8 @@ public class InventoryManager {
         }
     }
 }
+
+
 // OrderProcessor.java
 public class OrderProcessor implements Runnable {
     private InventoryManager manager;
@@ -172,6 +182,8 @@ public class OrderProcessor implements Runnable {
         }
     }
 }
+
+
 // Main.java
 import java.util.Scanner;
 
