@@ -1,0 +1,30 @@
+name: Compile and Execute Java Project
+
+on:
+  push:
+    branches: [ "main", "master" ]
+  workflow_dispatch: # Allows you to manually click a button on GitHub to run it anytime
+
+jobs:
+  build-and-run:
+    runs-on: ubuntu-latest
+
+    steps:
+    # Step 1: Clone the code from the GitHub repository into the virtual machine
+    - name: Checkout Repository Code
+      uses: actions/checkout@v4
+
+    # Step 2: Install Java Development Kit (JDK) on the virtual machine
+    - name: Set up JDK 17
+      uses: actions/setup-java@v4
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+
+    # Step 3: Compile all Java files together
+    - name: Compile Java Code
+      run: javac *.java
+
+    # Step 4: Execute the main script and print output to the action console
+    - name: Execute Program Engine
+      run: java Main
