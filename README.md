@@ -99,3 +99,23 @@ This project does not currently ship an automated test suite; verify functionali
    - Lower a product's stock below its reorder threshold and confirm it appears under **Alerts**.
    - Check the **Dashboard** and **Reports** views reflect the updated totals, and confirm CSV export works.
 4. **API testing (optional)** — use Postman, Insomnia, or `curl` against the endpoints listed in the backend README to exercise create/update/delete flows directly.
+   
+## Screenshot
+       
+   <img width="1600" height="736" alt="WhatsApp Image 2026-09-16 at 17 58 06" src="https://github.com/user-attachments/assets/b7691e38-e57c-4c53-ae1a-b853dc69131a" />
+
+   <img width="1600" height="688" alt="WhatsApp Image 2026-09-16 at 17 58 07" src="https://github.com/user-attachments/assets/f3ca42a6-2d84-4c0d-bd20-351e9d932827" />
+
+   <img width="947" height="401" alt="Screenshot 2026-09-16 173621" src="https://github.com/user-attachments/assets/bb9fd550-8ef0-49a4-bd50-72aa81b6b205" />
+
+   <img width="950" height="398" alt="Screenshot 2026-09-16 173632" src="https://github.com/user-attachments/assets/919c5ff1-9cba-4929-9c3b-8ba630c6eea9" />
+
+  <img width="956" height="404" alt="Screenshot 2026-09-16 173644" src="https://github.com/user-attachments/assets/becf10e0-f2fd-469d-9190-2ca18af7ec26" />
+
+   <img width="944" height="398" alt="Screenshot 2026-09-16 173654" src="https://github.com/user-attachments/assets/f8e3099f-e7a2-420b-af5e-a0a554a38c12" />
+
+  <img width="944" height="394" alt="Screenshot 2026-09-16 173705" src="https://github.com/user-attachments/assets/50debf15-16c3-4d09-bbe2-3ab9fa0f8945" />
+
+  <img width="936" height="390" alt="Screenshot 2026-09-16 173713" src="https://github.com/user-attachments/assets/53e15776-336b-4f3f-b833-6ee3f680623e" />
+
+
